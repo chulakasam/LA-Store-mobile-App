@@ -1,20 +1,41 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { HomeIcon, ShoppingCartIcon, CalendarIcon, CreditCardIcon } from "lucide-react-native"; // Import correct icons
+
+import Home from "./app/dashboard/Home";
+import Cart from "./app/dashboard/Cart";
+import Payment from "./app/dashboard/Payment";
+import Schedule from "./app/dashboard/Schedule";
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    return (
+        <NavigationContainer>
+            <Tab.Navigator
+                screenOptions={({ route }) => ({
+                    tabBarIcon: ({ color, size }) => {
+                        const icons: { [key: string]: React.ElementType } = {
+                            Home: HomeIcon,
+                            Cart: ShoppingCartIcon,
+                            Payment: CreditCardIcon,
+                            Schedule: CalendarIcon,
+                        };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+                        const IconComponent = icons[route.name] || HomeIcon; // Default to HomeIcon if undefined
+                        return <IconComponent size={size} color={color} />;
+                    },
+                    tabBarActiveTintColor: "#3B82F6",
+                    tabBarInactiveTintColor: "gray",
+                    headerShown: false,
+                })}
+            >
+                <Tab.Screen name="Home" component={Home} />
+                <Tab.Screen name="Cart" component={Cart} />
+                <Tab.Screen name="Payment" component={Payment} />
+                <Tab.Screen name="Schedule" component={Schedule} />
+            </Tab.Navigator>
+        </NavigationContainer>
+    );
+}
