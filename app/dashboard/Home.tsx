@@ -6,8 +6,21 @@ const HomeScreen = () => {
     const [cart, setCart] = useState([]);
 
     const addToCart = (item) => {
-        setCart([...cart, item]);
+        setCart((prevCart) => {
+            const existingItem = prevCart.find(cartItem => cartItem.id === item.id);
+            if (existingItem) {
+                return prevCart.map(cartItem =>
+                    cartItem.id === item.id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+                );
+            } else {
+                return [...prevCart, { ...item, quantity: 1 }];
+            }
+        });
         Alert.alert("Success", `${item.name} added to cart!`);
+    };
+
+    const calculateTotal = () => {
+        return cart.reduce((total, item) => total + (parseFloat(item.price.replace("Rs.", "").replace(",", "")) * item.quantity), 0);
     };
 
     const categories = ['Dumbbells', 'Treadmills', 'Yoga Mats', 'Resistance Bands'];
@@ -64,6 +77,23 @@ const HomeScreen = () => {
                 </View>
             ))}
 
+            <View style={styles.cartContainer}>
+                <Text style={styles.sectionTitle}>Your Cart</Text>
+                {cart.length > 0 ? (
+                    <>
+                        <FlatList data={cart} renderItem={({ item }) => (
+                            <View style={styles.cartItem}>
+                                <Text style={styles.cartItemText}>{item.name} x {item.quantity}</Text>
+                                <Text style={styles.cartItemPrice}>Rs.{(parseFloat(item.price.replace("Rs.", "").replace(",", "")) * item.quantity).toFixed(2)}</Text>
+                            </View>
+                        )} keyExtractor={(item) => item.id} />
+                        <Text style={styles.totalPrice}>Total: Rs.{calculateTotal().toFixed(2)}</Text>
+                    </>
+                ) : (
+                    <Text style={styles.emptyCartText}>Your cart is empty</Text>
+                )}
+            </View>
+
             <View style={styles.promotionContainer}>
                 <Text style={styles.promotionText}>Limited Time Offer! Get 10% off on your first purchase!</Text>
             </View>
@@ -85,6 +115,12 @@ const styles = StyleSheet.create({
     productPrice: { fontSize: 14, color: '#888', marginTop: 5 },
     addToCartButton: { marginTop: 10, backgroundColor: '#ff5722', paddingVertical: 8, paddingHorizontal: 20, borderRadius: 8 },
     addToCartText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+    cartContainer: { marginTop: 20, padding: 10, backgroundColor: '#fff', borderRadius: 12 },
+    cartItem: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
+    cartItemText: { fontSize: 16, fontWeight: '600', color: '#333' },
+    cartItemPrice: { fontSize: 16, color: '#555' },
+    totalPrice: { fontSize: 18, fontWeight: '700', color: '#000', marginTop: 10 },
+    emptyCartText: { textAlign: 'center', fontSize: 16, color: '#888' },
     promotionContainer: { backgroundColor: '#ff5722', padding: 15, borderRadius: 12, marginTop: 30 },
     promotionText: { color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: '600' },
 });
