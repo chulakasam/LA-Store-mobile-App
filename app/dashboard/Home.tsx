@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image, TextInput, ScrollView, Alert } from 'react-native';
 import { StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
+    const navigation = useNavigation();
     const [cart, setCart] = useState([]);
 
     const addToCart = (item) => {
@@ -45,6 +47,10 @@ const HomeScreen = () => {
         { id: '12', name: 'Fish Oil', image: require('../../assets/fish oil.png'), price: 'Rs.13200.00' },
         { id: '13', name: 'Beef Protein', image: require('../../assets/beef protein.png'), price: 'Rs.23400.00' }
     ];
+
+    const navigateToCart = () => {
+        navigation.navigate('Cart', { cart });
+    };
 
     return (
         <ScrollView style={styles.container}>
@@ -97,6 +103,10 @@ const HomeScreen = () => {
             <View style={styles.promotionContainer}>
                 <Text style={styles.promotionText}>Limited Time Offer! Get 10% off on your first purchase!</Text>
             </View>
+
+            <TouchableOpacity style={styles.viewCartButton} onPress={navigateToCart}>
+                <Text style={styles.viewCartText}>View Cart</Text>
+            </TouchableOpacity>
         </ScrollView>
     );
 };
@@ -123,6 +133,8 @@ const styles = StyleSheet.create({
     emptyCartText: { textAlign: 'center', fontSize: 16, color: '#888' },
     promotionContainer: { backgroundColor: '#ff5722', padding: 15, borderRadius: 12, marginTop: 30 },
     promotionText: { color: '#fff', textAlign: 'center', fontSize: 18, fontWeight: '600' },
+    viewCartButton: { marginTop: 20, backgroundColor: '#ff5722', paddingVertical: 12, paddingHorizontal: 30, borderRadius: 8, alignItems: 'center' },
+    viewCartText: { color: '#fff', fontSize: 18, fontWeight: '600' },
 });
 
 export default HomeScreen;
