@@ -112,7 +112,7 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 10, backgroundColor: '#f7f7f7' },
+    container: { flex: 1, padding: 10, backgroundColor: '#e0f7fa' }, // Light blue background
     searchContainer: { marginBottom: 20 },
     searchInput: { height: 45, borderColor: '#e2e2e2', borderWidth: 1, borderRadius: 25, paddingLeft: 15, backgroundColor: '#fff', fontSize: 16 },
     sectionContainer: { marginBottom: 20 },

@@ -58,7 +58,7 @@ const Cart = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20, backgroundColor: '#f7f7f7', justifyContent: 'center' },
+    container: { flex: 1, padding: 20, backgroundColor: '#e0f7fa', justifyContent: 'center' },
     dateTimeContainer: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10, paddingHorizontal: 10 },
     dateText: { fontSize: 16, fontWeight: '600', color: '#555' },
     timeText: { fontSize: 16, fontWeight: '600', color: '#555' },
@@ -72,5 +72,6 @@ const styles = StyleSheet.create({
     payButton: { backgroundColor: '#28a745', paddingVertical: 12, borderRadius: 10, marginTop: 20, alignItems: 'center', elevation: 4 },
     payButtonText: { fontSize: 18, fontWeight: '700', color: '#fff' },
 });
+
 
 export default Cart;

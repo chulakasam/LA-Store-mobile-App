@@ -6,15 +6,26 @@ const Payment = ({ route, navigation }) => {
     const [cardNumber, setCardNumber] = useState('');
     const [expiryDate, setExpiryDate] = useState('');
     const [cvv, setCvv] = useState('');
+    const [mobileNumber, setMobileNumber] = useState('');
+    const [address, setAddress] = useState('');
 
     const handlePaymentSubmit = () => {
-        if (!cardNumber || !expiryDate || !cvv) {
-            Alert.alert("Incomplete Details", "Please enter all payment details.");
+        if (!cardNumber || !expiryDate || !cvv || !mobileNumber || !address) {
+            Alert.alert("Incomplete Details", "Please enter all required details.");
             return;
         }
 
         // Simulate Payment Processing
         Alert.alert("Payment Successful", `You have been charged Rs.${totalAmount}`);
+
+        // Save order details (could be sent to backend)
+        const orderDetails = {
+            totalAmount,
+            mobileNumber,
+            address,
+            paymentMethod: "Card Payment",
+        };
+        console.log("Order Saved: ", orderDetails);
 
         // Redirect to Home or Order Confirmation Screen
         navigation.navigate('Cart', { cart: [] }); // Empty the cart
@@ -24,6 +35,24 @@ const Payment = ({ route, navigation }) => {
         <View style={styles.container}>
             <Text style={styles.title}>💳 Payment</Text>
             <Text style={styles.amountText}>Total Amount: Rs.{totalAmount}</Text>
+
+            <TextInput
+                style={styles.input}
+                placeholder="Mobile Number"
+                keyboardType="numeric"
+                maxLength={10}
+                value={mobileNumber}
+                onChangeText={setMobileNumber}
+            />
+
+            <TextInput
+                style={styles.input}
+                placeholder="Address"
+                multiline
+                numberOfLines={3}
+                value={address}
+                onChangeText={setAddress}
+            />
 
             <TextInput
                 style={styles.input}
@@ -59,7 +88,7 @@ const Payment = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f7f7f7', padding: 20 },
+    container: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#e0f7fa', padding: 20 },
     title: { fontSize: 24, fontWeight: '700', marginBottom: 10, color: '#222' },
     amountText: { fontSize: 18, fontWeight: '600', marginBottom: 20, color: '#444' },
     input: { width: '90%', padding: 10, marginBottom: 15, backgroundColor: '#fff', borderRadius: 8, elevation: 2 },
