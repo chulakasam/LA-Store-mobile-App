@@ -3,7 +3,7 @@ import { View, Text, FlatList, TouchableOpacity, Image, TextInput, ScrollView, A
 import { StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const HomeScreen = () => {
+const Home = () => {
     const navigation = useNavigation();
     const [cart, setCart] = useState([]);
 
@@ -137,4 +137,4 @@ const styles = StyleSheet.create({
     viewCartText: { color: '#fff', fontSize: 18, fontWeight: '600' },
 });
 
-export default HomeScreen;
+export default Home;
