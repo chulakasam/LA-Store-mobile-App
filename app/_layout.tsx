@@ -1,8 +1,7 @@
 import { Stack } from 'expo-router';
 import { store } from '../store/store';
 import { Provider } from 'react-redux';
-import Home from './dashboard/Home';
-import CartScreen from "./dashboard/Cart";
+
 
 export default function RootLayout() {
     return (

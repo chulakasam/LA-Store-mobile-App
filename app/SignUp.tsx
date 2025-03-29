@@ -2,13 +2,17 @@ import React, { useState, useRef, useEffect } from "react";
 import { Text, StyleSheet, TextInput, Pressable, View, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
+import {User} from "../model/User";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../store/store";
+import {registerUser} from "../reducer/UserSlice";
 
 export default function Signup() {
     const router = useRouter();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const dispatch = useDispatch<AppDispatch>();
 
     const slideAnim = useRef(new Animated.Value(300)).current;
 
@@ -21,14 +25,9 @@ export default function Signup() {
     }, [slideAnim]);
 
     function handleSignUp() {
-        if (email === "" || password === "") {
-            alert("Please fill all the fields");
-            return;
-        }
-        if (password !== confirmPassword) {
-            alert("Passwords do not match");
-            return;
-        }
+        console.log("User Registered:", {email, password });
+        const user:User={email:email, password:password};
+        dispatch(registerUser(user));
 
 
         console.log("User registered with email:", email);
@@ -66,14 +65,6 @@ export default function Signup() {
                     onChangeText={setPassword}
                 />
 
-                <Text style={styles.label}>Confirm Password</Text>
-                <TextInput
-                    style={styles.inputField}
-                    placeholder="******"
-                    placeholderTextColor="#999"
-                    secureTextEntry
-                    onChangeText={setConfirmPassword}
-                />
 
                 <Pressable
                     style={({ pressed }) => [

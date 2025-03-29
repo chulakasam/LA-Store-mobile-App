@@ -11,13 +11,17 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import {navigate} from "expo-router/build/global-state/routing";
 import {useNavigation} from "@react-navigation/native";
+import {User} from "../model/User";
+import {loginUser} from "../reducer/UserSlice";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../store/store";
 
 export default function Index() {
     const router = useRouter();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    let dispatch = useDispatch<AppDispatch>();
     const slideAnim = useRef(new Animated.Value(300)).current;
 
     useEffect(() => {
@@ -29,9 +33,10 @@ export default function Index() {
     }, [slideAnim]);
 
     function handleLogin() {
-        if (email === "user" && password === "1234") {
+        const user:User={email:email, password:password};
+        dispatch(loginUser(user));
             router.push("/dashboard/Home");
-        }
+
     }
 
 
