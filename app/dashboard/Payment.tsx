@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../store/store";
+import {savePayment} from "../../reducer/PaymentSlice";
+import Payments from "../../model/Payments";
 
 const Payment = ({ route, navigation }) => {
     const { totalAmount } = route.params;
@@ -8,6 +12,7 @@ const Payment = ({ route, navigation }) => {
     const [cvv, setCvv] = useState('');
     const [mobileNumber, setMobileNumber] = useState('');
     const [address, setAddress] = useState('');
+    const dispatch = useDispatch<AppDispatch>();
 
     const handlePaymentSubmit = () => {
         if (!cardNumber || !expiryDate || !cvv || !mobileNumber || !address) {
@@ -19,14 +24,9 @@ const Payment = ({ route, navigation }) => {
         Alert.alert("Payment Successful", `You have been charged Rs.${totalAmount}`);
 
         // Save order details (could be sent to backend)
-        const orderDetails = {
-            totalAmount,
-            mobileNumber,
-            address,
-            paymentMethod: "Card Payment",
-        };
-        console.log("Order Saved: ", orderDetails);
-
+       const payment = new Payments(totalAmount,Number(mobileNumber),address,Number(cardNumber),expiryDate,Number(cvv));
+        console.log("Order Saved: ", payment);
+        dispatch(savePayment(payment));
         // Redirect to Home or Order Confirmation Screen
         navigation.navigate('Cart', { cart: [] }); // Empty the cart
     };
